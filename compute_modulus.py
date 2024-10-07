@@ -10,15 +10,17 @@ def fast_shortest_path(s, w):
     lightest_value = math.inf
 
     def recurse(s, x, row):
+        nonlocal m_rows, lightest, lightest_value
         row[x] = 1
+        value = row @ w
+        if value > lightest_value:
+            return
         greater = []
         for i in range(x, len(s)):
             if s[i] > s[x] and all(s[j] > s[i] for j in greater):
                 greater.append(i)
         if not greater:
-            nonlocal m_rows, lightest, lightest_value
             m_rows.append(row.copy())
-            value = row @ w
             if value < lightest_value:
                 lightest_value = value
                 lightest = row.copy()
@@ -71,6 +73,6 @@ def fast_ssmodulus(pi, p, display=False):
 def compute_modulus(n):
     print("hi")
     mods = []
-    for _ in range(50):
+    for _ in range(100):
         mods.append(fast_ssmodulus(random.sample(range(1, n + 1), n), 2))
     return sum(mods) / len(mods)
