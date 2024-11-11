@@ -71,7 +71,6 @@ def fast_ssmodulus(pi, p, display=False):
         mod, rho = modulus(N, p)
 
 def compute_modulus(n):
-    print("hi")
     mods = []
     for _ in range(100):
         mods.append(fast_ssmodulus(random.sample(range(1, n + 1), n), 2))
