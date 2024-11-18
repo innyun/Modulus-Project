@@ -77,7 +77,6 @@ def fast_ssmodulus(pi, p, display=False):
 
 def compute_modulus(n):
     mods = []
-    print(os.getpid())
     for _ in range(10000):
         mods.append(fast_ssmodulus(random.sample(range(1, n + 1), n), 2))
     return sum(mods) / len(mods)
