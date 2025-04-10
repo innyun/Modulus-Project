@@ -1,11 +1,9 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import math
 import cvxpy as cvx
-import random
 import multiprocess as mp
 import warnings
-import os
+from itertools import permutations
 
 warnings.filterwarnings('ignore', category=FutureWarning)
 
@@ -77,13 +75,13 @@ def fast_ssmodulus(pi, p, display=False):
 
 def compute_modulus(n):
     mods = []
-    for _ in range(10000):
-        mods.append(fast_ssmodulus(random.sample(range(1, n + 1), n), 2))
+    for p in permutations(range(1, n+1)):
+        mods.append(fast_ssmodulus(p, 2))
     return sum(mods) / len(mods)
 
 if __name__ == "__main__":
-    start = 7
-    stop = 15
+    start = 1
+    stop = 5
 
     warnings.filterwarnings('ignore', category=FutureWarning)
     with mp.Pool(processes=64) as pool:
@@ -91,11 +89,3 @@ if __name__ == "__main__":
 
     for n, result in zip(range(start, stop), results):
         print(f'{n}: {result}')
-
-    plt.title(f"Modulus Values of Permutations of Size {1} to {stop}")
-    plt.xlabel("Size of Permutation")
-    plt.ylabel("Value of Modulus")
-    plt.scatter([1, 2, 3, 4, 5, 6], [1.0, 1.25, 1.277778, 1.257639, 1.233671, 1.216782], color='green', label="Exact Values")
-    plt.scatter(range(start, stop), results, label="Approximate Values")
-    plt.legend(loc="lower right")
-    plt.savefig("graph.png")
